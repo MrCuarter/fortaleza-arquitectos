@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Fortaleza de los Arquitectos — La saga completa (DPG1 + DPG2)</title>
+<meta name="description" content="La Fortaleza de los Arquitectos: saga narrativa gamificada en dos partes — El Camino de la Ceniza (DPG1) y El Juicio de la Ceniza (DPG2). Máster en Gamificación Educativa.">
+<style>
+/* ============ FUENTES DEL PROYECTO ============ */
+@font-face{font-family:'Cinzel';src:url('assets/fonts/Cinzel.ttf') format('truetype');font-weight:400 900;font-display:swap}
+@font-face{font-family:'Cinzel Decorative';src:url('assets/fonts/CinzelDecorative-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:'EB Garamond';src:url('assets/fonts/EBGaramond-Italic.ttf') format('truetype');font-style:italic;font-weight:400 600;font-display:swap}
+
+/* ============ SISTEMA ============ */
+:root{
+  --brasa-negra:#0c0a08;      /* fondo: negro cálido de hollín */
+  --piedra:#161210;           /* paneles */
+  --piedra-clara:#211b16;
+  --pergamino:#e9dcc3;        /* texto principal */
+  --ceniza:#8f8779;           /* texto apagado */
+  --oro:#c9a227;              /* dorado de forja */
+  --oro-claro:#e8c96a;
+  --rescoldo:#c96b2f;         /* DPG1 · el camino, las hogueras */
+  --acero:#7ea3b8;            /* DPG2 · el juicio, el asedio */
+  --linea:rgba(201,162,39,.22);
+  --serif-body:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+body{background:var(--brasa-negra);color:var(--pergamino);font-family:var(--serif-body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--oro-claro)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--oro-claro);outline-offset:3px}
+::selection{background:var(--oro);color:var(--brasa-negra)}
+
+h1,h2,h3,.cinzel{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.04em}
+.eyebrow{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--oro);margin-bottom:1rem}
+.section{max-width:1180px;margin:0 auto;padding:6.5rem 2rem 3rem}
+.section-head{margin-bottom:3rem;max-width:720px}
+.section-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--pergamino);font-weight:500}
+.section-head p.lead{margin-top:1rem;color:var(--ceniza);font-size:1.06rem}
+.gold-rule{width:64px;height:2px;background:linear-gradient(90deg,var(--oro),transparent);margin:1.2rem 0 0}
+
+/* ============ NAV ============ */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(12,10,8,.94);border-bottom:1px solid var(--linea)}
+nav .inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:1.4rem;padding:.75rem 2rem;overflow-x:auto;scrollbar-width:none}
+nav .inner::-webkit-scrollbar{display:none}
+nav .brand{font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.18em;color:var(--oro-claro);text-decoration:none;white-space:nowrap;flex-shrink:0}
+nav .links{display:flex;gap:1.35rem;margin-left:auto}
+nav .links a{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ceniza);text-decoration:none;white-space:nowrap;transition:color .25s}
+nav .links a:hover{color:var(--oro-claro)}
+
+/* ============ HERO ============ */
+header.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:saturate(.75) brightness(.8)}
+.hero-veil{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(180deg,rgba(12,10,8,.55) 0%,rgba(12,10,8,.15) 40%,rgba(12,10,8,.92) 88%,var(--brasa-negra) 100%)}
+.hero-inner{max-width:1180px;margin:0 auto;padding:0 2rem 11vh;width:100%}
+.hero h1{font-family:'Cinzel Decorative',serif;font-weight:700;color:var(--oro-claro);font-size:clamp(2rem,5.6vw,4.3rem);line-height:1.12;text-shadow:0 2px 30px rgba(0,0,0,.8);max-width:16ch}
+.hero .logline{margin-top:1.6rem;max-width:52ch;font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(1.05rem,1.7vw,1.3rem);color:var(--pergamino);text-shadow:0 1px 12px rgba(0,0,0,.9)}
+.hero .ctas{margin-top:2.4rem;display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-block;font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:.85rem 1.6rem;border:1px solid;transition:background .3s,color .3s}
+.btn-dpg1{color:var(--rescoldo);border-color:var(--rescoldo)}
+.btn-dpg1:hover{background:var(--rescoldo);color:var(--brasa-negra)}
+.btn-dpg2{color:var(--acero);border-color:var(--acero)}
+.btn-dpg2:hover{background:var(--acero);color:var(--brasa-negra)}
+.btn-oro{color:var(--oro-claro);border-color:var(--oro)}
+.btn-oro:hover{background:var(--oro);color:var(--brasa-negra)}
+
+/* la ceniza que cae */
+#ceniza-capa{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.ash{position:absolute;top:-4vh;border-radius:50%;background:#a49a8a;opacity:0;z-index:0;animation:caer linear infinite;pointer-events:none}
+@keyframes caer{
+  0%{transform:translate3d(0,-4vh,0);opacity:0}
+  8%{opacity:.55}
+  100%{transform:translate3d(var(--drift,30px),108vh,0);opacity:0}
+}
+
+/* ============ EL MUNDO ============ */
+.mundo-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3.5rem;align-items:center}
+.mundo-texto p{margin-bottom:1.1rem;color:#cfc4ab}
+.mundo-texto strong{color:var(--pergamino)}
+blockquote.voz{border-left:2px solid var(--oro);padding:.4rem 0 .4rem 1.4rem;margin:1.8rem 0;font-family:'EB Garamond',serif;font-style:italic;font-size:1.18rem;color:var(--oro-claro)}
+blockquote.voz footer{font-family:'Cinzel',serif;font-style:normal;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ceniza);margin-top:.7rem}
+.obsoletus-figura{position:relative;text-align:center}
+.obsoletus-figura img{margin:0 auto;filter:grayscale(.9) brightness(.75) drop-shadow(0 0 45px rgba(0,0,0,.9));transition:filter 1.2s ease}
+.obsoletus-figura:hover img{filter:grayscale(0) brightness(.95) drop-shadow(0 0 45px rgba(201,107,47,.25))}
+.obsoletus-figura figcaption{margin-top:1rem;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ceniza)}
+.dato-fila{display:flex;gap:2.6rem;flex-wrap:wrap;margin-top:2.6rem;border-top:1px solid var(--linea);padding-top:1.8rem}
+.dato .n{font-family:'Cinzel',serif;font-size:1.9rem;color:var(--oro-claro)}
+.dato .l{font-size:.82rem;color:var(--ceniza);letter-spacing:.06em}
+
+/* ============ LAS DOS PARTES ============ */
+.partes{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem}
+.parte{background:var(--piedra);border:1px solid var(--linea);display:flex;flex-direction:column;overflow:hidden}
+.parte .cover{position:relative;overflow:hidden;aspect-ratio:16/10}
+.parte .cover img{width:100%;height:100%;object-fit:cover;object-position:center 18%;filter:saturate(.55) brightness(.85);transition:filter .9s ease,transform 3s ease}
+.parte:hover .cover img{filter:saturate(1) brightness(1);transform:scale(1.03)}
+.parte .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(12,10,8,.88))}
+.parte .cover .tag{position:absolute;z-index:3;top:1.1rem;left:1.1rem;font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;padding:.4rem .8rem;background:rgba(12,10,8,.8);border:1px solid}
+.parte.p1 .tag{color:var(--rescoldo);border-color:var(--rescoldo)}
+.parte.p2 .tag{color:var(--acero);border-color:var(--acero)}
+.parte .cuerpo{padding:1.8rem 1.9rem 2.1rem;display:flex;flex-direction:column;gap:.9rem;flex:1}
+.parte h3{font-size:1.45rem;font-weight:500}
+.parte.p1 h3{color:var(--rescoldo)}
+.parte.p2 h3{color:var(--acero)}
+.parte .credito{font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ceniza)}
+.parte p.sinopsis{color:#cfc4ab;font-size:.98rem}
+.parte .docs{margin-top:auto;padding-top:1.2rem;display:flex;gap:.7rem;flex-wrap:wrap}
+.parte .docs .btn{font-size:.66rem;padding:.6rem 1rem}
+video{width:100%;display:block;background:#000}
+.video-caja{border:1px solid var(--linea)}
+.video-caja figcaption{padding:.7rem 1rem;font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ceniza);background:var(--piedra)}
+
+/* ============ GALERÍAS (la ceniza que se enciende) ============ */
+.galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.lamina{position:relative;overflow:hidden;border:1px solid rgba(233,220,195,.08);aspect-ratio:4/5;background:var(--piedra)}
+.lamina img{width:100%;height:100%;object-fit:cover;filter:grayscale(.85) brightness(.72);transition:filter 1s ease,transform 1.4s ease}
+.lamina:hover img,.lamina:focus-within img{filter:grayscale(0) brightness(1);transform:scale(1.045)}
+.lamina .pie{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:2.2rem .95rem .8rem;background:linear-gradient(180deg,transparent,rgba(12,10,8,.94));pointer-events:none}
+.lamina .pie .nombre{font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.1em;color:var(--pergamino)}
+.lamina .pie .tema{font-size:.72rem;color:var(--ceniza);margin-top:.15rem}
+.lamina.caida .pie .nombre::after{content:" ✝";color:var(--rescoldo)}
+.nota-ceniza{margin-top:1.4rem;font-family:'EB Garamond',serif;font-style:italic;color:var(--ceniza);font-size:.95rem}
+
+/* ============ SALAS DPG2 ============ */
+.salas{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.sala{background:var(--piedra);border:1px solid rgba(126,163,184,.16);overflow:hidden;display:flex;flex-direction:column}
+.sala .img{overflow:hidden;aspect-ratio:16/9}
+.sala .img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.85) brightness(.72);transition:filter 1s ease}
+.sala:hover .img img{filter:grayscale(0) brightness(1)}
+.sala .txt{padding:1.1rem 1.2rem 1.3rem}
+.sala .num{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.24em;color:var(--acero);text-transform:uppercase}
+.sala h4{font-family:'Cinzel',serif;font-size:1.02rem;font-weight:500;color:var(--pergamino);margin:.3rem 0 .35rem}
+.sala .guardian{font-size:.8rem;color:var(--oro-claro)}
+.sala .lecion{font-size:.82rem;color:var(--ceniza);margin-top:.45rem;font-style:italic}
+
+/* ============ REPARTO ============ */
+.intendente{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;background:var(--piedra);border:1px solid var(--linea);padding:2.6rem;margin-bottom:3rem}
+.reparto-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.ficha{background:var(--piedra);border:1px solid var(--linea);padding:1.3rem 1.3rem 1.4rem}
+.ficha .rol{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--oro)}
+.ficha h4{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:var(--pergamino);margin:.35rem 0 .5rem}
+.ficha p{font-size:.84rem;color:var(--ceniza)}
+.avatares{display:grid;grid-template-columns:repeat(8,1fr);gap:.6rem;margin-top:3rem}
+.avatar{text-align:center}
+.avatar img{filter:grayscale(.85) brightness(.8);transition:filter .8s ease}
+.avatar:hover img{filter:grayscale(0) brightness(1)}
+.avatar span{display:block;margin-top:.4rem;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ceniza)}
+
+/* arco de Oswin */
+.arco{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:3rem;border:1px solid var(--linea)}
+.arco .mov{padding:1.4rem 1.2rem 1.5rem;border-right:1px solid var(--linea);position:relative;background:linear-gradient(180deg,var(--piedra),transparent)}
+.arco .mov:last-child{border-right:none;background:linear-gradient(180deg,#1d1512,transparent)}
+.arco .mov .fase{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rescoldo)}
+.arco .mov h5{font-family:'Cinzel',serif;font-size:.95rem;color:var(--pergamino);margin:.4rem 0 .45rem;font-weight:500}
+.arco .mov p{font-size:.78rem;color:var(--ceniza)}
+
+/* ============ CAPÍTULOS ============ */
+.dos-columnas{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem}
+.libro-col h3{font-size:1.2rem;font-weight:500;margin-bottom:.4rem}
+.libro-col.c1 h3{color:var(--rescoldo)}
+.libro-col.c2 h3{color:var(--acero)}
+.libro-col .sub{font-size:.85rem;color:var(--ceniza);margin-bottom:1.3rem}
+ol.capitulos{list-style:none;border-top:1px solid var(--linea)}
+ol.capitulos li{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:baseline;padding:.55rem .4rem;border-bottom:1px solid rgba(233,220,195,.07);font-size:.9rem}
+ol.capitulos li:hover{background:rgba(201,162,39,.05)}
+ol.capitulos .n{font-family:'Cinzel',serif;font-size:.72rem;color:var(--ceniza)}
+ol.capitulos .t{color:#d8ccb2}
+ol.capitulos .k{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:.18rem .5rem;border:1px solid;white-space:nowrap}
+.k.tema{color:var(--ceniza);border-color:rgba(143,135,121,.4)}
+.k.taller{color:var(--oro-claro);border-color:rgba(201,162,39,.5)}
+.k.actividad{color:var(--rescoldo);border-color:rgba(201,107,47,.55)}
+.k.evento{color:#d66;border-color:rgba(221,102,102,.5)}
+.k.narr{color:var(--acero);border-color:rgba(126,163,184,.5)}
+
+/* ============ DISEÑO DIDÁCTICO ============ */
+.didactica{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;align-items:start}
+.panel{background:var(--piedra);border:1px solid var(--linea);padding:2rem}
+.panel h3{font-size:1.1rem;color:var(--oro-claro);font-weight:500;margin-bottom:1rem}
+.panel p,.panel li{font-size:.92rem;color:#cfc4ab}
+.panel ul{list-style:none;margin-top:.6rem}
+.panel ul li{padding:.5rem 0 .5rem 1.6rem;position:relative;border-bottom:1px solid rgba(233,220,195,.06)}
+.panel ul li::before{content:"◆";position:absolute;left:0;top:.55rem;font-size:.6rem;color:var(--oro)}
+.reto-ejemplo{border:1px solid var(--linea);padding:1.8rem;background:linear-gradient(160deg,var(--piedra-clara),var(--piedra))}
+.reto-ejemplo .titulo{font-family:'Cinzel',serif;color:var(--oro-claro);font-size:1rem;margin-bottom:1rem}
+.reto-ejemplo .capa{margin-bottom:1rem}
+.reto-ejemplo .capa .etq{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ceniza);display:block;margin-bottom:.3rem}
+.reto-ejemplo .capa p{font-size:.9rem;color:#cfc4ab}
+.reto-ejemplo .capa.envoltorio p{font-family:'EB Garamond',serif;font-style:italic;font-size:1.02rem;color:var(--pergamino)}
+
+/* ============ PRODUCCIÓN ============ */
+.produccion{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.prod{background:var(--piedra);border:1px solid var(--linea);padding:1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.prod .estado{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;align-self:flex-start;padding:.2rem .55rem;border:1px solid}
+.estado.listo{color:#8fb87e;border-color:rgba(143,184,126,.5)}
+.estado.curso{color:var(--oro-claro);border-color:rgba(201,162,39,.5)}
+.prod h4{font-family:'Cinzel',serif;font-size:.98rem;font-weight:500;color:var(--pergamino)}
+.prod p{font-size:.84rem;color:var(--ceniza)}
+.videos-fila{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2.6rem}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--linea);margin-top:6rem}
+footer .inner{max-width:1180px;margin:0 auto;padding:3rem 2rem 3.5rem;display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;align-items:baseline}
+footer .lema{font-family:'EB Garamond',serif;font-style:italic;color:var(--ceniza)}
+footer .firma{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ceniza)}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:980px){
+  .galeria{grid-template-columns:repeat(2,1fr)}
+  .salas{grid-template-columns:repeat(2,1fr)}
+  .reparto-grid{grid-template-columns:repeat(2,1fr)}
+  .arco{grid-template-columns:1fr;}
+  .arco .mov{border-right:none;border-bottom:1px solid var(--linea)}
+  .partes,.dos-columnas,.didactica,.mundo-grid,.intendente,.videos-fila{grid-template-columns:1fr}
+  .produccion{grid-template-columns:1fr 1fr}
+  .avatares{grid-template-columns:repeat(4,1fr)}
+  nav .links{display:none}
+}
+@media(max-width:560px){
+  .section{padding:4.5rem 1.2rem 2rem}
+  .galeria,.produccion,.salas{grid-template-columns:1fr}
+  .lamina{aspect-ratio:16/10}
+}
+</style>
+</head>
+<body>
+
+<nav aria-label="Secciones">
+  <div class="inner">
+    <a class="brand" href="#top">LA FORTALEZA DE LOS ARQUITECTOS</a>
+    <div class="links">
+      <a href="#mundo">El mundo</a>
+      <a href="#saga">La saga</a>
+      <a href="#camino">El camino</a>
+      <a href="#salas">Las salas</a>
+      <a href="#reparto">El reparto</a>
+      <a href="#capitulos">Capítulos</a>
+      <a href="#didactica">Diseño didáctico</a>
+      <a href="#produccion">Producción</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ PORTADA ============ -->
+<header class="hero" id="top">
+  <div class="hero-bg"><img src="assets/img/dpg1/08_fortaleza_900.jpg" alt="La Fortaleza de los Arquitectos encendida bajo la lluvia"></div>
+  <div class="hero-veil"></div>
+  <div id="ceniza-capa" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">Máster en Gamificación Educativa · Diseño de Proyectos Gamificados I y II</p>
+    <h1>La Fortaleza de los Arquitectos</h1>
+    <p class="logline">En un mundo que se vuelve gris, una sola fortaleza sigue enseñando el oficio que todos olvidan: diseñar experiencias que la gente no quiera abandonar.</p>
+    <div class="ctas">
+      <a class="btn btn-dpg1" href="#saga">I · El Camino de la Ceniza</a>
+      <a class="btn btn-dpg2" href="#saga">II · El Juicio de la Ceniza</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ EL MUNDO ============ -->
+<section class="section" id="mundo">
+  <div class="section-head">
+    <p class="eyebrow">El mundo</p>
+    <h2>La Ceniza Gris no quema nada</h2>
+    <div class="gold-rule"></div>
+  </div>
+  <div class="mundo-grid">
+    <div class="mundo-texto">
+      <p>No hay guerra. No hay fuego. Donde cae la Ceniza, <strong>la gente deja de tener ganas</strong>. Las escuelas siguen abiertas, pero dentro solo hay colas. Los oficios siguen existiendo, pero son trámites. La gente sigue viva, pero contesta con el número de expediente. Así se pierde un reino: sin ruido.</p>
+      <p>La Fortaleza de los Arquitectos es la última que queda en pie: el único lugar donde aún se enseña el arte contra el que la Ceniza no puede. Por eso es un objetivo. Y por eso existe <strong>la Última Leva</strong>: cada estudiante del máster es un recluta, con la cara del avatar que elija.</p>
+      <p>Del que manda la ceniza se sabe poco. Le llaman <strong>Obsoletus</strong>. No nació monstruo: la saga entera es descubrir, fragmento a fragmento, quién fue antes — y decidir, al final, qué merece.</p>
+      <blockquote class="voz">
+        «Todo el mundo recuerda dónde estaba el día en que su ciudad se apagó. Yo os voy a contar dónde estabais vosotros.»
+        <footer>— el Correo · Capítulo 1 de El Camino de la Ceniza</footer>
+      </blockquote>
+      <div class="dato-fila">
+        <div class="dato"><div class="n">2</div><div class="l">asignaturas · una saga</div></div>
+        <div class="dato"><div class="n">54</div><div class="l">capítulos (uno por sesión)</div></div>
+        <div class="dato"><div class="n">51</div><div class="l">retos ligados a la trama</div></div>
+        <div class="dato"><div class="n">17</div><div class="l">ciudades apagadas</div></div>
+      </div>
+    </div>
+    <figure class="obsoletus-figura">
+      <img src="assets/img/personajes/obsoletus_600.png" alt="Obsoletus, el sitiador de ceniza" loading="lazy" width="420">
+      <figcaption>Obsoletus · antes fue Oswin, el primer Arquitecto</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ LA SAGA ============ -->
+<section class="section" id="saga">
+  <div class="section-head">
+    <p class="eyebrow">La saga en dos partes</p>
+    <h2>Un año a pie. Un año entre muros.</h2>
+    <div class="gold-rule"></div>
+    <p class="lead">La primera parte cuenta la caída del reino desde los caminos; la segunda, la defensa desde dentro de la última fortaleza. Cada parte se basta sola — pero quien lea las dos reconocerá caras, deudas y cicatrices.</p>
+  </div>
+  <div class="partes">
+    <article class="parte p1">
+      <div class="cover"><span class="tag">Primera parte · DPG1</span><img src="assets/img/covers/cover_dpg1_1000.jpg" alt="Portada de El Camino de la Ceniza" loading="lazy"></div>
+      <div class="cuerpo">
+        <h3>El Camino de la Ceniza</h3>
+        <p class="credito">Fernando Martí · Norberto Cuartero</p>
+        <p class="sinopsis">Seis ciudades caen en un año, y cada una enseña — sin decirlo — una parte del oficio: la ciudad que no quiso leerse a sí misma, la herrera que fundió su obra antes que entregarla, la ciudad de las cien fiestas, el tribunal vacío, los espejos rotos de Claraguas. Al final del camino no hay victoria: hay una columna de refugiados, una puerta encendida bajo la lluvia y un alistamiento.</p>
+        <blockquote class="voz" style="font-size:1.02rem">«No salvamos ninguna ciudad. Salvamos algo mejor. A la gente.»<footer>— tráiler DPG1</footer></blockquote>
+        <div class="docs">
+          <a class="btn btn-oro" href="assets/docs/LIBRO_DPG1.pdf">Libro ilustrado (PDF)</a>
+          <a class="btn btn-dpg1" href="#video-dpg1">Ver tráiler</a>
+        </div>
+      </div>
+    </article>
+    <article class="parte p2">
+      <div class="cover"><span class="tag">Segunda parte · DPG2</span><img src="assets/img/covers/cover_dpg2_1000.jpg" alt="Portada de El Juicio de la Ceniza" loading="lazy"></div>
+      <div class="cuerpo">
+        <h3>El Juicio de la Ceniza</h3>
+        <p class="credito">Alfons Nàcher · Norberto Cuartero</p>
+        <p class="sinopsis">Un año de instrucción en las ocho salas de la Fortaleza, un asedio que se acerca y un topo entre los muros. Cada sala cerrada devuelve un fragmento de la memoria de Obsoletus: el huérfano genio, el maestro que le robó cada obra, el expediente sellado «SIN VALOR». Al final, el Juicio — y el veredicto lo vota el alumnado.</p>
+        <blockquote class="voz" style="font-size:1.02rem">«Os haré tan grises como me hicisteis a mí.»<footer>— Obsoletus</footer></blockquote>
+        <div class="docs">
+          <a class="btn btn-oro" href="assets/docs/LIBRO_DPG2.pdf">Libro ilustrado (PDF)</a>
+          <a class="btn btn-dpg2" href="#video-dpg2">Ver tráiler</a>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="videos-fila">
+    <figure class="video-caja" id="video-dpg1">
+      <video controls preload="none" poster="assets/img/dpg1/00_sinopsis_900.jpg" src="assets/video/trailer_dpg1_720.mp4"></video>
+      <figcaption>Tráiler · El Camino de la Ceniza (89 s)</figcaption>
+    </figure>
+    <figure class="video-caja" id="video-dpg2">
+      <video controls preload="none" poster="assets/img/dpg2/c26_asedio_entrega_900.jpg" src="assets/video/trailer_dpg2_720.mp4"></video>
+      <figcaption>Tráiler · El Juicio de la Ceniza (52 s)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ EL CAMINO (DPG1) ============ -->
+<section class="section" id="camino">
+  <div class="section-head">
+    <p class="eyebrow">Primera parte · las ciudades</p>
+    <h2>Seis ciudades, un año, un camino</h2>
+    <div class="gold-rule"></div>
+    <p class="lead">Cada ciudad del camino es un tema de DPG1, y cada una es el hogar de un futuro guardián de la Fortaleza. Pasa el cursor: lo gris vuelve a encenderse.</p>
+  </div>
+  <div class="galeria" id="galeria-dpg1"></div>
+  <p class="nota-ceniza">Las láminas se generan a 4K por capítulo y se reutilizan en libros, tráilers y vídeos de la serie.</p>
+</section>
+
+<!-- ============ LAS SALAS (DPG2) ============ -->
+<section class="section" id="salas">
+  <div class="section-head">
+    <p class="eyebrow">Segunda parte · la Fortaleza</p>
+    <h2>Nueve salas guardan el oficio</h2>
+    <div class="gold-rule"></div>
+    <p class="lead">Descender por la Fortaleza es avanzar en el temario: cada sala es un tema de DPG2, su nombre es el título de la campaña en GamificaPro, y su guardián enseña la lección sin decirla nunca.</p>
+  </div>
+  <div class="salas" id="salas-dpg2"></div>
+</section>
+
+<!-- ============ EL REPARTO ============ -->
+<section class="section" id="reparto">
+  <div class="section-head">
+    <p class="eyebrow">El reparto</p>
+    <h2>Sin héroes limpios</h2>
+    <div class="gold-rule"></div>
+  </div>
+
+  <div class="intendente">
+    <div>
+      <p class="eyebrow" style="margin-bottom:.5rem">El narrador</p>
+      <h3 class="cinzel" style="font-size:1.5rem;font-weight:500;color:var(--oro-claro)">El Intendente (antes, el Correo)</h3>
+      <p style="margin-top:1rem;color:#cfc4ab">Veterano seco con humor negro de trinchera. En la primera parte era el correo de la comarca: cartas, encargos, malas noticias a domicilio — «cuarenta años caminando de ciudad en ciudad, que es lo que hace un hombre cuando hay algo en casa que no quiere mirar». En la segunda, firma los Partes de Guerra de la Fortaleza y narra en retrospectiva: ya sabe cómo acaba, así que presagia, teme y llora por adelantado.</p>
+      <p style="margin-top:1rem;color:#cfc4ab">Su secreto se guarda para el final: <strong>él estuvo allí</strong> la noche en que nadie acudió a la última obra de Oswin. En el Juicio confiesa su parte — y eso hace que el voto de cada estudiante pese el doble.</p>
+    </div>
+    <blockquote class="voz" style="font-size:1.35rem;border-left:none;padding-left:0">
+      «Yo ya he leído el primer fragmento, reclutas. Me tocaba, por el cargo. Y os lo advierto con el corazón en la mano: conocerle va a doler.»
+      <footer>— el Intendente · voz de Valen Cid (ElevenLabs v3)</footer>
+    </blockquote>
+  </div>
+
+  <div class="reparto-grid" id="guardianes"></div>
+
+  <div class="section-head" style="margin-top:4rem">
+    <p class="eyebrow">El antagonista</p>
+    <h2 style="font-size:1.6rem">El arco de Oswin, en cinco movimientos</h2>
+    <p class="lead" style="margin-top:.8rem">Cada sala cerrada devuelve un fragmento de su vida — no una traición calcada por puerta, sino una etapa distinta, de la maravilla a la tragedia.</p>
+  </div>
+  <div class="arco">
+    <div class="mov"><span class="fase">I · Asombro</span><h5>El don</h5><p>El huérfano genio; la fiesta legendaria; el maestro dorado lo apadrina. <em>(Atrio · Planos)</em></p></div>
+    <div class="mov"><span class="fase">II · Robo</span><h5>La firma raspada</h5><p>Su nombre borrado bajo la firma de Aldric; su sistema de mérito vuelto impuesto. <em>(Compás · Taller)</em></p></div>
+    <div class="mov"><span class="fase">III · Borrado</span><h5>«SIN VALOR»</h5><p>Su faro convertido en vigilancia; su examen sellado en silencio. <em>(Forja · Equilibrio)</em></p></div>
+    <div class="mov"><span class="fase">IV · La caída</span><h5>La fórmula del ladrón</h5><p>Usa la receta del éxito garantizado, fracasa, y usan su fracaso como prueba. <em>(Torre del Cristal)</em></p></div>
+    <div class="mov"><span class="fase">V · El nacimiento</span><h5>La ceniza</h5><p>Quema doce años de trabajo; de ese gris se levanta Obsoletus. <em>(Cámara del Consejo)</em></p></div>
+  </div>
+
+  <div class="section-head" style="margin-top:4rem">
+    <p class="eyebrow">El protagonista eres tú</p>
+    <h2 style="font-size:1.6rem">Ocho avatares, una Leva</h2>
+    <p class="lead" style="margin-top:.8rem">La narración nunca fija «tú»: la cara del recluta es el avatar que cada estudiante elige al alistarse.</p>
+  </div>
+  <div class="avatares" id="avatares"></div>
+</section>
+
+<!-- ============ CAPÍTULOS ============ -->
+<section class="section" id="capitulos">
+  <div class="section-head">
+    <p class="eyebrow">El mapa de la saga</p>
+    <h2>54 capítulos · un capítulo por sesión</h2>
+    <div class="gold-rule"></div>
+    <p class="lead">Cada capítulo es una sesión del curso, no un tema: clases de inicio y cierre de tema, talleres, actividades en dos actos (presentación y resolución, atemporal), el evento final antes del examen y el cierre después. El temario va debajo de la historia, sin explicarse nunca.</p>
+  </div>
+  <div class="dos-columnas">
+    <div class="libro-col c1">
+      <h3>I · El Camino de la Ceniza</h3>
+      <p class="sub">Tráiler + 27 capítulos · narra el Correo</p>
+      <ol class="capitulos" id="caps-dpg1"></ol>
+    </div>
+    <div class="libro-col c2">
+      <h3>II · El Juicio de la Ceniza</h3>
+      <p class="sub">27 capítulos · narra el Intendente · final votable</p>
+      <ol class="capitulos" id="caps-dpg2"></ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DISEÑO DIDÁCTICO ============ -->
+<section class="section" id="didactica">
+  <div class="section-head">
+    <p class="eyebrow">Debajo de la historia</p>
+    <h2>El diseño didáctico</h2>
+    <div class="gold-rule"></div>
+    <p class="lead">La saga no adorna el curso: lo estructura. Cada pieza narrativa tiene una función docente exacta.</p>
+  </div>
+  <div class="didactica">
+    <div class="panel">
+      <h3>Cómo se juega</h3>
+      <ul>
+        <li><strong>51 retos</strong> (≥3 por tema, DPG1 + DPG2). Cada uno con dos capas: <em>la tarea</em> — la destreza en claro — y <em>el envoltorio narrativo</em> — cómo se lo propone el guardián al estudiante.</li>
+        <li><strong>Retos-puzle 🧩</strong>: varios retos sueltos resultan ser piezas de una Actividad evaluable. Al presentarla, el alumnado descubre que ya la tiene casi hecha — andamiaje oculto.</li>
+        <li><strong>Las Actividades son eventos narrativos asíncronos</strong>: su presentación se lanza con toda la fuerza según calendario; su resolución llega al corregir, sin mover el eje de la historia.</li>
+        <li><strong>La recompensa es memoria</strong>: cada actividad resuelta devuelve un fragmento del pasado de un maestro (DPG1) o de Obsoletus (DPG2).</li>
+        <li><strong>El final se vota</strong>: el Juicio de la Ceniza termina con el veredicto del alumnado sobre Obsoletus.</li>
+      </ul>
+      <div class="docs" style="margin-top:1.6rem;display:flex;gap:.7rem;flex-wrap:wrap">
+        <a class="btn btn-oro" href="assets/docs/RETOS_FORTALEZA.pdf" style="font-size:.66rem;padding:.6rem 1rem">Los 51 retos (PDF)</a>
+      </div>
+    </div>
+    <div class="reto-ejemplo">
+      <p class="eyebrow" style="margin-bottom:.6rem">Un reto, por dentro</p>
+      <p class="titulo">Reto 1 · ¿Esto está vivo o gris? <span style="color:var(--ceniza);font-size:.75rem">(DPG1 · Tema 1)</span></p>
+      <div class="capa">
+        <span class="etq">🎯 La tarea — qué demuestra</span>
+        <p>Analiza una clase real tuya y localiza tres momentos concretos en los que el alumnado se desengancha. Para cada uno, escribe el objetivo educativo real que persigue ese momento — no la tarea, el aprendizaje.</p>
+      </div>
+      <div class="capa envoltorio">
+        <span class="etq">📜 El envoltorio narrativo</span>
+        <p>El Correo despliega el plano de tu ciudad sobre la mesa. «Antes de defender nada, hay que saber por dónde entra la ceniza. Señálame los tres rincones de tu aula donde la gente ya deja de tener ganas. Y dime qué se suponía que iban a aprender ahí.»</p>
+      </div>
+      <div class="capa">
+        <span class="etq">Destreza</span>
+        <p>Detectar objetivos y oportunidad de gamificar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCCIÓN ============ -->
+<section class="section" id="produccion">
+  <div class="section-head">
+    <p class="eyebrow">El arsenal</p>
+    <h2>Producción de la saga</h2>
+    <div class="gold-rule"></div>
+    <p class="lead">Todo el material se produce desde una fuente única (las narrativas en Markdown) con un pipeline propio: libros, láminas, guiones de voz, tráilers, cabeceras y la serie de vídeos por capítulo.</p>
+  </div>
+  <div class="produccion">
+    <div class="prod"><span class="estado listo">Final</span><h4>2 libros ilustrados</h4><p>Edición bestseller en PDF, con las láminas 4K integradas. Uno por asignatura.</p></div>
+    <div class="prod"><span class="estado listo">Final</span><h4>55+ láminas 4K</h4><p>Una por capítulo, reutilizables en libros, tráilers y vídeos de la serie.</p></div>
+    <div class="prod"><span class="estado listo">Final</span><h4>2 guiones de voz</h4><p>28 pistas por asignatura con tags de actuación ElevenLabs v3. Voz de la saga: Valen Cid.</p></div>
+    <div class="prod"><span class="estado listo">Final</span><h4>2 tráilers épicos</h4><p>89 s y 52 s, montaje propio con clips animados a 1080p.</p></div>
+    <div class="prod"><span class="estado curso">En validación</span><h4>2 cabeceras de serie</h4><p>Openings tipo anime (~48 s): cortes secos, primeros planos de ojos y remate con Obsoletus.</p></div>
+    <div class="prod"><span class="estado curso">En curso</span><h4>Serie de 54 vídeos</h4><p>Un vídeo por capítulo (voz + láminas + Ken Burns cinematográfico). Producido: DPG1 · Capítulo 1.</p></div>
+    <div class="prod"><span class="estado listo">Final</span><h4>51 retos redactados</h4><p>Doble capa (tarea + envoltorio), con el mapa del puzle que arma las 3 actividades de cada parte.</p></div>
+    <div class="prod"><span class="estado listo">Diseñado</span><h4>Campañas GamificaPro</h4><p>Cada sala/ciudad es el título de una campaña; la estructura del curso se importa intacta.</p></div>
+    <div class="prod"><span class="estado listo">Final</span><h4>Reparto de voces</h4><p>Cada guardián habla en su escena con voz y tags propios; los fragmentos de Oswin, en una segunda voz joven e íntima.</p></div>
+  </div>
+
+  <figure class="video-caja" style="margin-top:2.6rem">
+    <video controls preload="none" poster="assets/img/dpg1/00_sinopsis_900.jpg" src="assets/video/cap01_dpg1_720.mp4"></video>
+    <figcaption>Serie · DPG1 Capítulo 1 — «El mundo se apaga» (primer episodio producido)</figcaption>
+  </figure>
+  <div class="videos-fila">
+    <figure class="video-caja">
+      <video controls preload="none" poster="assets/img/dpg1/01_vado_sereno_900.jpg" src="assets/video/opening_dpg1_720.mp4"></video>
+      <figcaption>Cabecera · El Camino de la Ceniza (~48 s, en validación)</figcaption>
+    </figure>
+    <figure class="video-caja">
+      <video controls preload="none" poster="assets/img/dpg2/c02_atrio_brakka_900.jpg" src="assets/video/opening_dpg2_720.mp4"></video>
+      <figcaption>Cabecera · El Juicio de la Ceniza (~48 s, en validación)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<footer>
+  <div class="inner">
+    <p class="lema">«El año que viene, la guerra. Este año, aprended a andar.»</p>
+    <p class="firma">La Fortaleza de los Arquitectos · DPG1 Fernando Martí · DPG2 Alfons Nàcher · Norberto Cuartero</p>
+  </div>
+</footer>
+
+<script>
+/* ---------- datos ---------- */
+const ciudades = [
+  {img:'01_vado_sereno_900.jpg', nombre:'Vado Sereno', tema:'T1 · Contexto y objetivos — la ciudad que no quiso leerse', caida:true},
+  {img:'02_caminos_900.jpg', nombre:'Los Caminos', tema:'T2 · Rutas de aprendizaje — las señales de Roan, el cantero ciego', caida:false},
+  {img:'03_yunquefrio_900.jpg', nombre:'Yunquefrío', tema:'T3 · Componentes y elementos — la fragua de Thrainne', caida:true},
+  {img:'04_candelara_900.jpg', nombre:'Candelara', tema:'T4 · Dinámicas de juego — la ciudad de las cien fiestas', caida:true},
+  {img:'05_torneal_900.jpg', nombre:'Torneal', tema:'T5 · Mecánicas I — el tribunal vacío de Vezrak', caida:true},
+  {img:'06_rocahendida_900.jpg', nombre:'Rocahendida', tema:'T6 · Mecánicas II — las cuarenta muescas de Brakka', caida:true},
+  {img:'07_claraguas_900.jpg', nombre:'Claraguas', tema:'T7 · Integración — los espejos rotos de la Vigía', caida:true},
+  {img:'08_fortaleza_900.jpg', nombre:'La Fortaleza', tema:'T8 · Prototipado — la última puerta', caida:false},
+];
+
+const salas = [
+  {img:'c01_leva_edicto_900.jpg', n:'Sala 1 · Intro', t:'Comienza la aventura', g:'el Intendente', l:'por qué existe la Leva; el juramento'},
+  {img:'c02_atrio_brakka_900.jpg', n:'Sala 2 · Tema 1', t:'El Atrio del Conocimiento', g:'Brakka', l:'una orden sin porqué mata soldados → actividad con objetivo'},
+  {img:'c04_sala_planos_corvin_900.jpg', n:'Sala 3 · Tema 2', t:'La Sala de los Planos', g:'el Archivero', l:'una historia sin final se olvida sola → estructura y formatos'},
+  {img:'c08_camara_compas_900.jpg', n:'Sala 4 · Tema 3', t:'La Cámara del Compás', g:'el Guardián de la Escalera', l:'nada crece a saltos → progresión y andamiaje'},
+  {img:'c11_taller_sistemas_900.jpg', n:'Sala 5 · Tema 4', t:'El Taller de Sistemas', g:'Thrainne', l:'la moneda que no significa nada compra nada → puntos con porqué'},
+  {img:'c13_forja_ludica_900.jpg', n:'Sala 6 · Tema 5', t:'La Forja Lúdica', g:'la Vigía de los Espejos', l:'ver a tiempo a los tuyos, no vigilarlos → artefactos de gestión'},
+  {img:'c16_salon_luto_900.jpg', n:'Sala 7 · Tema 6', t:'El Salón del Equilibrio', g:'Vezrak, el Juez', l:'el aviso tardío y en rojo no corrige → feedback certero e inmediato'},
+  {img:'c21_torre_cristal_900.jpg', n:'Sala 8 · Tema 7', t:'La Torre del Cristal', g:'Aldric el Preclaro', l:'el éxito ajeno se adapta, no se copia → casos con contexto'},
+  {img:'c23_camara_consejo_900.jpg', n:'Sala 9 · Tema 8', t:'La Cámara del Consejo', g:'la Comandante', l:'ningún plan sobrevive al primer contacto → riesgos + el Juicio'},
+];
+
+const guardianes = [
+  {rol:'Guardiana del Atrio', nombre:'Brakka', bio:'Capitana curtida, forjadora de contratos; cicatrices y cero paciencia. Sus cuarenta muescas de Rocahendida vienen de la primera parte.'},
+  {rol:'Guardián de los Planos', nombre:'El Archivero', bio:'Viejo maestre de la memoria del reino, dedos manchados de tinta, bondad cansada. Cargó con las canciones de todo un pueblo. Muere defendiendo su sala: el golpe emocional de la serie.'},
+  {rol:'Guardián del Compás', nombre:'El Guardián de la Escalera', bio:'Anciano cantero ciego que talló la Cámara; sus anillos no son de árbol sino de piedra labrada año a año.'},
+  {rol:'Guardiana del Taller', nombre:'Thrainne', bio:'Maestra enana de la ceca. En la primera parte fundió su propia obra antes que entregarla a la Ceniza.'},
+  {rol:'Guardiana de la Forja', nombre:'La Vigía de los Espejos', bio:'Vidente de la sala anegada; gobierna espejos de agua que muestran la Fortaleza en directo. Heredó el Observatorio de Oswin sin saberlo.'},
+  {rol:'Guardián del Equilibrio', nombre:'Vezrak, el Juez', bio:'Viejo magistrado de la Balanza de Cristal; calló en el examen de Oswin y lleva treinta años expiándolo.'},
+  {rol:'Guardián de la Torre · el traidor', nombre:'Aldric el Preclaro', bio:'Gran Arquitecto oficial, héroe venerado, encantador y dorado. Robó la obra de Oswin y vende «fórmulas del éxito garantizadas».'},
+  {rol:'Guardiana del Consejo', nombre:'La Comandante', bio:'Estratega del asedio final; la voz que defiende, contra medio consejo, que a Obsoletus se le puede juzgar en vez de ejecutar.'},
+];
+
+const avatares = [
+  ['guerrero','Guerrero'],['guerrera','Guerrera'],['mago','Mago'],['maga','Maga'],
+  ['elfo','Elfo'],['elfa','Elfa'],['enano','Enano'],['enana','Enana'],
+];
+
+/* tipos: tema | taller | actividad | evento | narr */
+const capsDPG1 = [
+  [0,'El Camino de la Ceniza','Tráiler','narr'],
+  [1,'El mundo se apaga','Presentación','narr'],
+  [2,'La Lectura','T1 · inicio','tema'],
+  [3,'El acta que nadie quiso firmar','T1 · cierre','tema'],
+  [4,'La nieve gris','T2 · inicio','tema'],
+  [5,'El último puente','T2 · cierre','tema'],
+  [6,'La ciudad de las piezas','T3 · inicio','tema'],
+  [7,'La Efigie','Taller 1','taller'],
+  [8,'La Sala de los Mapas','Taller 2','taller'],
+  [9,'El Censo de la Marcha','Act. 1 · pres.','actividad'],
+  [10,'Antes muertas que huecas','T3 · cierre','tema'],
+  [11,'La ciudad de las cien fiestas','T4 · inicio','tema'],
+  [12,'La noche que Candelara cantó','T4 · cierre','tema'],
+  [13,'Las reglas del juego','T5 · inicio','tema'],
+  [14,'Nadie camina sin nombre','Act. 1 · res.','actividad'],
+  [15,'El Susurro','Act. 2 · pres.','actividad'],
+  [16,'El tribunal vacío','T5 · cierre','tema'],
+  [17,'La medida de cada uno','T6 · inicio','tema'],
+  [18,'Cuarenta muescas','T6 · cierre','tema'],
+  [19,'La ciudad donde todo encaja','T7 · inicio','tema'],
+  [20,'«Volveré cuando os canséis»','Act. 2 · res.','actividad'],
+  [21,'La Ciudad que Llevamos','Act. 3 · pres.','actividad'],
+  [22,'La noche de los canales','T7 · cierre','tema'],
+  [23,'La última puerta','T8 · inicio','tema'],
+  [24,'La piedra sin nombre','Act. 3 · res.','actividad'],
+  [25,'El Muro de los Fallos','T8 · cierre','tema'],
+  [26,'El primer asalto','Evento final','evento'],
+  [27,'La Última Leva','Cierre','narr'],
+];
+
+const capsDPG2 = [
+  [1,'Comienza la aventura','Presentación','narr'],
+  [2,'El Atrio del Conocimiento','T1 · inicio','tema'],
+  [3,'El muro de los nombres','T1 · cierre','tema'],
+  [4,'La Sala de los Planos','T2 · inicio','tema'],
+  [5,'El escritorio del Archivero','Taller 1','taller'],
+  [6,'El encargo del héroe que aún no existe','Act. 1 · pres.','actividad'],
+  [7,'La historia que no ardió','T2 · cierre','tema'],
+  [8,'La Cámara del Compás','T3 · inicio','tema'],
+  [9,'El mapa sin un solo camino','Act. 2 · pres.','actividad'],
+  [10,'El paso que cada cual escoge','T3 · cierre','tema'],
+  [11,'El Taller de Sistemas','T4 · inicio','tema'],
+  [12,'La moneda que sí significa algo','T4 · cierre','tema'],
+  [13,'La Forja Lúdica','T5 · inicio','tema'],
+  [14,'El fragmento del huérfano lector','Act. 1 · res.','actividad'],
+  [15,'La forja que sigue latiendo','T5 · cierre','tema'],
+  [16,'El Salón del Equilibrio','T6 · inicio','tema'],
+  [17,'Lo que Vezrak no calla','Act. 2 · res.','actividad'],
+  [18,'La mesa de Vezrak','Taller 2','taller'],
+  [19,'El encargo que sostiene toda la Fortaleza','Act. 3 · pres.','actividad'],
+  [20,'El sello que nunca se explicó','T6 · cierre','tema'],
+  [21,'La Torre del Cristal','T7 · inicio','tema'],
+  [22,'La firma que no cuadraba','T7 · cierre','tema'],
+  [23,'La Cámara del Consejo','T8 · inicio','tema'],
+  [24,'La Fortaleza que ya sostenéis vosotros','Act. 3 · res.','actividad'],
+  [25,'La última hoguera','T8 · cierre','tema'],
+  [26,'El asedio de la última puerta','Evento final','evento'],
+  [27,'El Juicio de la Ceniza','Cierre · votable','narr'],
+];
+
+/* ---------- render ---------- */
+const $ = s => document.querySelector(s);
+
+$('#galeria-dpg1').innerHTML = ciudades.map(c=>`
+  <figure class="lamina${c.caida?' caida':''}" tabindex="0">
+    <img src="assets/img/dpg1/${c.img}" alt="Lámina de ${c.nombre}" loading="lazy">
+    <figcaption class="pie"><div class="nombre">${c.nombre}</div><div class="tema">${c.tema}</div></figcaption>
+  </figure>`).join('');
+
+$('#salas-dpg2').innerHTML = salas.map(s=>`
+  <article class="sala" tabindex="0">
+    <div class="img"><img src="assets/img/dpg2/${s.img}" alt="Lámina de ${s.t}" loading="lazy"></div>
+    <div class="txt">
+      <span class="num">${s.n}</span>
+      <h4>${s.t}</h4>
+      <p class="guardian">Guardián: ${s.g}</p>
+      <p class="lecion">${s.l}</p>
+    </div>
+  </article>`).join('');
+
+$('#guardianes').innerHTML = guardianes.map(g=>`
+  <article class="ficha">
+    <span class="rol">${g.rol}</span>
+    <h4>${g.nombre}</h4>
+    <p>${g.bio}</p>
+  </article>`).join('');
+
+$('#avatares').innerHTML = avatares.map(([f,n])=>`
+  <figure class="avatar">
+    <img src="assets/img/personajes/${f}_600.png" alt="Avatar: ${n}" loading="lazy">
+    <span>${n}</span>
+  </figure>`).join('');
+
+const cap = ([n,t,k,tipo]) => `<li><span class="n">${String(n).padStart(2,'0')}</span><span class="t">${t}</span><span class="k ${tipo}">${k}</span></li>`;
+$('#caps-dpg1').innerHTML = capsDPG1.map(cap).join('');
+$('#caps-dpg2').innerHTML = capsDPG2.map(cap).join('');
+
+/* ---------- la ceniza que cae (hero) ---------- */
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const capa = document.getElementById('ceniza-capa');
+  for(let i=0;i<42;i++){
+    const p=document.createElement('span');
+    p.className='ash';
+    const s=1+Math.random()*2.6;
+    p.style.width=p.style.height=s+'px';
+    p.style.left=Math.random()*100+'%';
+    p.style.setProperty('--drift',(Math.random()*90-45)+'px');
+    p.style.animationDuration=(9+Math.random()*14)+'s';
+    p.style.animationDelay=(-Math.random()*20)+'s';
+    capa.appendChild(p);
+  }
+}
+</script>
+</body>
+</html>
